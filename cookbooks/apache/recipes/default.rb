@@ -4,15 +4,13 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
-if node['platform_family'] == 'rhel'
-  package = 'httpd'
-elsif node['platform_family'] == 'debian'
-  package = 'apache2'
-end
-
 package 'apache2' do
-  package_name package 
-  action :install
+  case node['platform']
+  when 'centos' 
+    package_name 'httpd'
+  when 'ubuntu'
+    package_name 'apache2'
+  end
 end
 
 service 'apache2' do
